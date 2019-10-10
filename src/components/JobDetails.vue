@@ -1,15 +1,12 @@
 <template>
     <div>
-
-
-        <b-card  :title="uuid">
+        <b-card :title="uuid">
             <b-card-text>
                 <div v-if="load" class="text-center">
                     <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-
 
                 {{ msg }}
             </b-card-text>
@@ -21,49 +18,45 @@
 <script>
     export default {
         name: "JobDetails",
-        data () {
+        data() {
             return {
-                msg : '',
-                state : 0,
-                intervalid : null,
-                load : 1,
+                msg: '',
+                intervalid: null,
+                load: 1,
 
             }
         },
         props: {
 
-            uuid : {
+            uuid: {
                 required: true
             }
         },
 
-
-        mounted : function(){
+        mounted: function () {
             this.refreshJob();
             this.checking();
 
         },
-        beforeDestroy () {
+        beforeDestroy() {
             this.finishChecking();
 
         },
-        watch:{
+        watch: {
             'uuid'() {
                 this.finishChecking();
-
                 this.refreshJob();
                 this.checking();
 
             }
         },
-        methods : {
+        methods: {
             checking() {
                 this.load = 1;
-                this.msg ='';
-                    this.intervalid = setInterval(() => {
+                this.msg = '';
+                this.intervalid = setInterval(() => {
                     this.refreshJob();
-                    console.log ('ooo');
-                }, 30000);
+                }, 10000);
             },
             finishChecking() {
                 this.load = 0;
@@ -71,29 +64,29 @@
             },
             refreshJob() {
 
-                this.$store.dispatch('checkJob', {uuid : this.uuid})
+                this.$store.dispatch('checkJob', {uuid: this.uuid})
                     .then((state) => {
-                        if(state == 'started'){
-                            this.msg = 'Start creating game' ;
+                        if (state == 'started') {
+                            this.msg = 'Start creating game';
                         } else if (state == 'failed') {
-                            this.msg = 'Creating game failed' ;
+                            this.msg = 'Creating game failed';
                             this.finishChecking();
                         } else if (state == 'finished') {
-                            this.msg = 'Game was created' ;
+                            this.msg = 'Game was created';
                             this.finishChecking();
                         } else {
-                            this.msg = state ;
+                            this.msg = state;
                         }
 
                     })
-                    .catch(() => { this.msg = 'Error while checking' ; })
-                    .finally(() => { });
+                    .catch(() => {
+                        this.msg = 'Error while checking';
+                    })
+                    .finally(() => {
+                    });
 
             }
         },
-
-
-
 
     }
 </script>

@@ -1,55 +1,58 @@
 <template>
-<div>
-
-
-    <b-alert  v-if="msg" show> {{ msg }}</b-alert>
-
-   <b-list-group v-if="games.length">
-    <Game v-for = "game in games" :key = "game.id" :game="game" v-on:generate-game="generateGame"  />
-   </b-list-group>
-
-
-
-</div>
-
+    <div>
+        <b-list-group v-if="games.length">
+            <Game v-for="game in games" :key="game.id" :game="game" v-on:generate-game="generateGame"/>
+        </b-list-group>
+        <b-alert v-if="msg" show> {{ msg }}</b-alert>
+    </div>
 </template>
 
 <script>
     import Game from '@/components/Game.vue';
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
 
     export default {
         name: "GameList",
-        props : ['title'],
+        props: ['title'],
         components: {
             Game
         },
-        data () {
+        data() {
             return {
-                msg : '',
-                isSending : false,
+                msg: '',
+                isSending: false,
 
             }
         },
-
-        methods : {
+        methods: {
             refreshGames() {
                 this.$store.dispatch('refreshGames');
 
             },
-            generateGame (uuid) {
-                if(this.isSending) { this.msg = 'while sending... try later'; return;}
+            generateGame(uuid) {
+                if (this.isSending) {
+                    this.msg = 'While sending... try later';
+                    return;
+                }
 
                 this.isSending = true;
-                this.msg = 'sending...';
+                this.msg = 'Sending...';
                 this.$store.dispatch('generateGame', {uuid})
-                    .then((id) => { console.log(id); this.msg = '' ; this.$router.push({ name: 'job', params: { id } }) })
-                    .catch(error => {console.error(error); this.msg = 'Error while sending'; })
-                    .finally(() => {this.isSending = false; });
+                    .then((id) => {
+                        this.msg = '';
+                        this.$router.push({name: 'job', params: {id}}).catch(err => {
+                        })
+                    })
+                    .catch(error => {
+                        this.msg = 'Error while sending';
+                    })
+                    .finally(() => {
+                        this.isSending = false;
+                    });
 
             }
         },
-        computed:  mapState({
+        computed: mapState({
             games: state => state.games
         }),
 

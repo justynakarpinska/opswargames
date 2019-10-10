@@ -1,13 +1,9 @@
 <template>
-
-
-    <b-card  :title="game.name">
+    <b-card :title="game.name">
         <b-card-text>
             {{ game.description }}
         </b-card-text>
-
     </b-card>
-
 </template>
 
 <script>
@@ -18,7 +14,7 @@
                 type: Object,
                 required: true
             },
-            uuid : {
+            uuid: {
 
                 required: true
             }
