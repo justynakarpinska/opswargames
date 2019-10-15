@@ -39,7 +39,7 @@ export default new Vuex.Store({
 
             return axios.get(url + '/games/check/' + uuid).then((response) => {
 
-                return response.data.status;
+                return response.data;
 
             });
 

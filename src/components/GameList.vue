@@ -40,10 +40,10 @@
                 this.$store.dispatch('generateGame', {uuid})
                     .then((id) => {
                         this.msg = '';
-                        this.$router.push({name: 'job', params: {id}}).catch(err => {
+                        this.$router.push({name: 'job', params: {id}}).catch(() => {
                         })
                     })
-                    .catch(error => {
+                    .catch(() => {
                         this.msg = 'Error while sending';
                     })
                     .finally(() => {

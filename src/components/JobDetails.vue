@@ -65,14 +65,16 @@
             refreshJob() {
 
                 this.$store.dispatch('checkJob', {uuid: this.uuid})
-                    .then((state) => {
+                    .then((data) => {
+                        const state = data.status;
+                       
                         if (state == 'started') {
                             this.msg = 'Start creating game';
                         } else if (state == 'failed') {
                             this.msg = 'Creating game failed';
                             this.finishChecking();
                         } else if (state == 'finished') {
-                            this.msg = 'Game was created';
+                            this.msg = 'Game was created. Server będzie działać do: ' + data.end_date + '. Nazwa serwera: ' + data.hostname + '. Ip: ' + data.ip + '. Nazwa użytkownika: '+ data.username+'. Hasło: ' + data.password ;
                             this.finishChecking();
                         } else {
                             this.msg = state;
