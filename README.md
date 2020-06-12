@@ -1,5 +1,5 @@
-# web-front
-
+# opswargames
+Frontend for generating environment and access for opswargames
 ## Project setup
 ```
 npm install

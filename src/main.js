@@ -14,7 +14,7 @@ new Vue({
   router,
   store,
   mounted () {
-    this.$store.dispatch('refreshGames')
+    this.$store.dispatch('refreshGames').then()
   },
   render: h => h(App)
 }).$mount('#app')

@@ -14,7 +14,7 @@ export default new Vuex.Store({
     },
     getters: {
         findGame: (state) => (uuid) => {
-            return state.games.find(game => game.uuid == uuid);
+            return state.games.find(game => game.uuid === uuid);
         }
     },
     actions: {
@@ -26,7 +26,7 @@ export default new Vuex.Store({
             });
 
         },
-        generateGame({commit}, {uuid}) {
+        generateGame(c, {uuid}) {
 
             return axios.post(url + '/games/run/' + uuid, {}).then((response) => {
                 return response.data.id;
@@ -35,14 +35,12 @@ export default new Vuex.Store({
 
         },
 
-        checkJob({commit}, {uuid}) {
+        checkJob(c, {uuid}) {
 
             return axios.get(url + '/games/check/' + uuid).then((response) => {
 
                 return response.data;
-
             });
-
         },
 
     },
